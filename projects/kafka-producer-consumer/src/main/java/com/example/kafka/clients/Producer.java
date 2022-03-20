@@ -12,16 +12,16 @@ public class Producer {
 
     public Producer() {
         Properties properties = new Properties();
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // bootstrap.servers 설정
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName()); // key.serializer
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName()); // value.serializer
 
         this.producer = new KafkaProducer<>(properties);
     }
 
     public void send(String topic, String message) {
         try {
-            ProducerRecord<String, String> record = new ProducerRecord<String,String>(topic, message);
+            ProducerRecord<String, String> record = new ProducerRecord<String,String>(topic, message); // 메시지 전송에 사용할 record 객체 생성
             producer.send(record, (metadata, e) -> {
                 if(e != null) {
                     e.printStackTrace();
