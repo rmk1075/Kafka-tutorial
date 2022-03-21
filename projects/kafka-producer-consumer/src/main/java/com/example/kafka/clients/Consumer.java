@@ -16,10 +16,10 @@ public class Consumer {
 
     public Consumer(String topic) {
         Properties properties = new Properties();
-        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, topic);
+        properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // bootstrap.servers 설정
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()); // key.deserializer
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName()); // value.deserializer
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, topic); // group.id
 
         this.consumer = new KafkaConsumer<>(properties);
     }
@@ -30,7 +30,7 @@ public class Consumer {
         String message = null;
         try {
             do {
-                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100)); // partition 에 레코드가 있는 경우 즉시 가져온다. 레코드가 없으면 timeout 동안 기다린다. timeout 이 초과하면 빈 리스트를 반환한다.
                 for(ConsumerRecord<String, String> record : records) {
                     message = record.value();
                     System.out.println(message);
